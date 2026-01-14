@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Grounds - Premium Coffee Collection</title>
+    <style>
+        :root {
+            --primary-color: #2c1810;
+            --secondary-color: #8b6f47;
+            --accent-color: #d4a574;
+            --light-bg: #f8f5f0;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --shadow-color: rgba(44, 24, 16, 0.15);
+            --text-dark: #2c1810;
+            --text-light: #f8f5f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .coffee-section {
+            position: relative;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dfd0 100%);
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Animated background elements */
+        .coffee-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: backgroundMove 60s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(360deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+            animation: expandWidth 1s ease forwards 0.5s;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            max-width: 600px;
+            margin: 30px auto 0;
+            line-height: 1.8;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        /* Glass Product Card */
+        .product-card {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            box-shadow: 0 8px 32px var(--shadow-color);
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(44, 24, 16, 0.25);
+            border-color: var(--accent-color);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Product Image Container */
+        .product-image {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #8b6f47 0%, #6d5636 100%);
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-card:hover .product-image::after {
+            opacity: 1;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        /* Product Badge */
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(139, 111, 71, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--text-light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Product Content */
+        .product-content {
+            position: relative;
+        }
+
+        .product-origin {
+            display: inline-block;
+            background: rgba(139, 111, 71, 0.2);
+            color: var(--secondary-color);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover .product-name {
+            color: var(--secondary-color);
+        }
+
+        .product-description {
+            font-size: 1rem;
+            color: #5a4a3a;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        /* Product Details */
+        .product-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            border: 1px solid rgba(139, 111, 71, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(139, 111, 71, 0.3);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        /* Tasting Notes */
+        .tasting-notes {
+            margin-bottom: 25px;
+        }
+
+        .tasting-notes h4 {
+            font-size: 0.95rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .notes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .note-tag {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.3), rgba(139, 111, 71, 0.2));
+            backdrop-filter: blur(5px);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            border: 1px solid rgba(212, 165, 116, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .note-tag:hover {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.5), rgba(139, 111, 71, 0.3));
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+        }
+
+        /* Price and CTA */
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(139, 111, 71, 0.2);
+        }
+
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .price-amount {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .price-unit {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            opacity: 0.7;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: var(--text-light);
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(139, 111, 71, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(139, 111, 71, 0.5);
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Coffee beans floating animation */
+        .coffee-bean {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #6d5636, #4a3824);
+            border-radius: 50% 40% 50% 40%;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .coffee-bean:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .coffee-bean:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 5s;
+            animation-duration: 30s;
+        }
+
+        .coffee-bean:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 10s;
+            animation-duration: 35s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-40px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(0) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-20px) rotate(270deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Loading animation */
+        .loading-shimmer {
+            background: linear-gradient(90deg,
+                rgba(255,255,255,0.1) 0%,
+                rgba(255,255,255,0.3) 50%,
+                rgba(255,255,255,0.1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body>
+    <section class="coffee-section" id="coffeeSection">
+        <!-- Floating coffee beans decoration -->
+        <div class="coffee-bean"></div>
+        <div class="coffee-bean"></div>
+        <div class="coffee-bean"></div>
+
+        <div class="container">
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2>Our Premium Coffee Collection</h2>
+                <p>Discover exceptional single-origin coffees sourced from the world's finest growing regions, roasted to perfection for an unforgettable experience.</p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="product-grid">
+                <!-- Product Card 1 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">Best Seller</span>
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&h=600&fit=crop"
+                             alt="Ethiopian Yirgacheffe Coffee"
+                             loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <span class="product-origin">Ethiopia</span>
+                        <h3 class="product-name">Ethiopian Yirgacheffe</h3>
+                        <p class="product-description">
+                            A bright and complex coffee with floral aromatics and citrus notes. Grown at high altitude in the birthplace of coffee.
+                        </p>
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Roast:</span>
+                                <span>Light</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Process:</span>
+                                <span>Washed</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Altitude:</span>
+                                <span>1,800-2,200m</span>
+                            </div>
+                        </div>
+                        <div class="tasting-notes">
+                            <h4>Tasting Notes</h4>
+                            <div class="notes-list">
+                                <span class="note-tag">Bergamot</span>
+                                <span class="note-tag">Jasmine</span>
+                                <span class="note-tag">Lemon</span>
+                                <span class="note-tag">Black Tea</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price-amount">$18.99</span>
+                                <span class="price-unit">/ 12oz</span>
+                            </div>
+                            <button class="cta-button" onclick="handleAddToCart('Ethiopian Yirgacheffe')">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 2 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">New Arrival</span>
+                        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop"
+                             alt="Colombian Supremo Coffee"
+                             loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <span class="product-origin">Colombia</span>
+                        <h3 class="product-name">Colombian Supremo</h3>
+                        <p class="product-description">
+                            Rich and balanced with caramel sweetness. This premium grade Colombian coffee offers a smooth, full-bodied experience.
+                        </p>
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Roast:</span>
+                                <span>Medium</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Process:</span>
+                                <span>Fully Washed</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Altitude:</span>
+                                <span>1,400-1,800m</span>
+                            </div>
+                        </div>
+                        <div class="tasting-notes">
+                            <h4>Tasting Notes</h4>
+                            <div class="notes-list">
+                                <span class="note-tag">Caramel</span>
+                                <span class="note-tag">Dark Chocolate</span>
+                                <span class="note-tag">Hazelnut</span>
+                                <span class="note-tag">Orange</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price-amount">$16.99</span>
+                                <span class="price-unit">/ 12oz</span>
+                            </div>
+                            <button class="cta-button" onclick="handleAddToCart('Colombian Supremo')">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 3 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">Limited</span>
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&h=600&fit=crop"
+                             alt="Guatemala Antigua Coffee"
+                             loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <span class="product-origin">Guatemala</span>
+                        <h3 class="product-name">Guatemala Antigua</h3>
+                        <p class="product-description">
+                            Complex and sophisticated with volcanic soil influence. A refined coffee with exceptional body and spicy undertones.
+                        </p>
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Roast:</span>
+                                <span>Medium-Dark</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Process:</span>
+                                <span>Washed</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Altitude:</span>
+                                <span>1,500-1,700m</span>
+                            </div>
+                        </div>
+                        <div class="tasting-notes">
+                            <h4>Tasting Notes</h4>
+                            <div class="notes-list">
+                                <span class="note-tag">Cocoa</span>
+                                <span class="note-tag">Cinnamon</span>
+                                <span class="note-tag">Brown Sugar</span>
+                                <span class="note-tag">Apple</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price-amount">$19.99</span>
+                                <span class="price-unit">/ 12oz</span>
+                            </div>
+                            <button class="cta-button" onclick="handleAddToCart('Guatemala Antigua')">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 4 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">Organic</span>
+                        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=600&fit=crop"
+                             alt="Sumatra Mandheling Coffee"
+                             loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <span class="product-origin">Indonesia</span>
+                        <h3 class="product-name">Sumatra Mandheling</h3>
+                        <p class="product-description">
+                            Bold and earthy with low acidity. This Indonesian classic delivers a heavy body and exotic herbal characteristics.
+                        </p>
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Roast:</span>
+                                <span>Dark</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Process:</span>
+                                <span>Wet-Hulled</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Altitude:</span>
+                                <span>1,100-1,500m</span>
+                            </div>
+                        </div>
+                        <div class="tasting-notes">
+                            <h4>Tasting Notes</h4>
+                            <div class="notes-list">
+                                <span class="note-tag">Cedar</span>
+                                <span class="note-tag">Tobacco</span>
+                                <span class="note-tag">Dark Chocolate</span>
+                                <span class="note-tag">Molasses</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price-amount">$17.99</span>
+                                <span class="price-unit">/ 12oz</span>
+                            </div>
+                            <button class="cta-button" onclick="handleAddToCart('Sumatra Mandheling')">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 5 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">Exclusive</span>
+                        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&h=600&fit=crop"
+                             alt="Costa Rica Tarrazu Coffee"
+                             loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <span class="product-origin">Costa Rica</span>
+                        <h3 class="product-name">Costa Rica Tarrazú</h3>
+                        <p class="product-description">
+                            Clean and crisp with bright acidity. Grown in the prestigious Tarrazú region known for producing exceptional coffees.
+                        </p>
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Roast:</span>
+                                <span>Light-Medium</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Process:</span>
+                                <span>Honey</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Altitude:</span>
+                                <span>1,600-1,900m</span>
+                            </div>
+                        </div>
+                        <div class="tasting-notes">
+                            <h4>Tasting Notes</h4>
+                            <div class="notes-list">
+                                <span class="note-tag">Honey</span>
+                                <span class="note-tag">Apricot</span>
+                                <span class="note-tag">Almond</span>
+                                <span class="note-tag">Milk Chocolate</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price-amount">$20.99</span>
+                                <span class="price-unit">/ 12oz</span>
+                            </div>
+                            <button class="cta-button" onclick="handleAddToCart('Costa Rica Tarrazú')">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 6 -->
+                <article class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">Rare</span>
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=600&fit=crop"
+                             alt="Kenya AA Coffee"
+                             loading="lazy">
+                    </div>
+                    <div class="product-content">
+                        <span class="product-origin">Kenya</span>
+                        <h3 class="product-name">Kenya AA</h3>
+                        <p class="product-description">
+                            Vibrant and wine-like with intense fruit notes. Kenya's finest grade showcasing the country's exceptional coffee heritage.
+                        </p>
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Roast:</span>
+                                <span>Light</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Process:</span>
+                                <span>Washed</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Altitude:</span>
+                                <span>1,700-2,100m</span>
+                            </div>
+                        </div>
+                        <div class="tasting-notes">
+                            <h4>Tasting Notes</h4>
+                            <div class="notes-list">
+                                <span class="note-tag">Blackcurrant</span>
+                                <span class="note-tag">Grapefruit</span>
+                                <span class="note-tag">Tomato</span>
+                                <span class="note-tag">Brown Sugar</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">
+                                <span class="price-amount">$21.99</span>
+                                <span class="price-unit">/ 12oz</span>
+                            </div>
+                            <button class="cta-button" onclick="handleAddToCart('Kenya AA')">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all product cards
+        document.querySelectorAll('.product-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add to cart handler (customize based on your WordPress/WooCommerce setup)
+        function handleAddToCart(productName) {
+            // Add your cart logic here
+            console.log(`Adding ${productName} to cart`);
+
+            // Show feedback
+            const button = event.target.closest('.cta-button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span>✓ Added!</span>';
+            button.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '';
+            }, 2000);
+
+            // Here you would typically:
+            // 1. Call WordPress/WooCommerce AJAX endpoint
+            // 2. Update cart count
+            // 3. Show notification
+            // Example:
+            // jQuery.post(wc_add_to_cart_params.ajax_url, {
+            //     action: 'woocommerce_add_to_cart',
+            //     product_id: productId
+            // });
+        }
+
+        // Smooth scroll animations
+        const cards = document.querySelectorAll('.product-card');
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const beans = document.querySelectorAll('.coffee-bean');
+
+            beans.forEach((bean, index) => {
+                const speed = 0.5 + (index * 0.2);
+                bean.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Hover effect enhancement
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Lazy loading enhancement
+        if ('loading' in HTMLImageElement.prototype) {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                img.src = img.src;
+            });
+        } else {
+            // Fallback for browsers that don't support lazy loading
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+            document.body.appendChild(script);
+        }
+    </script>
+</body>
+</html>
