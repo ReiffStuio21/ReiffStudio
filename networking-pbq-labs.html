@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Networking PBQ Practice Labs | Launchpad IT Solutions</title>
+<style>
+  :root{
+    --bg:#0b1220;
+    --panel:#121b2e;
+    --panel-2:#17233a;
+    --border:#263650;
+    --text:#e6edf7;
+    --text-dim:#8ea0bd;
+    --accent:#22d3ee;
+    --accent-2:#34d399;
+    --accent-3:#a78bfa;
+    --danger:#f87171;
+    --warn:#fbbf24;
+    --radius:10px;
+    --mono: 'Consolas','Menlo','Courier New',monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;
+  }
+  a{color:var(--accent);}
+  button{
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+  /* Header */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,18,32,0.95);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
+  }
+  .brand-row{
+    max-width:1200px;margin:0 auto;padding:14px 20px 6px;
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-3));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#081019;font-size:1.1rem;
+  }
+  .brand-text h1{font-size:1.05rem;margin:0;line-height:1.2;}
+  .brand-text span{font-size:.78rem;color:var(--text-dim);}
+  .progress-pill{
+    font-size:.75rem;color:var(--text-dim);
+    background:var(--panel-2);border:1px solid var(--border);
+    padding:6px 12px;border-radius:999px;
+  }
+  nav.tabs{
+    max-width:1200px;margin:0 auto;padding:8px 20px 12px;
+    display:flex;gap:8px;overflow-x:auto;
+  }
+  nav.tabs button{
+    flex:0 0 auto;
+    background:var(--panel);
+    color:var(--text-dim);
+    border:1px solid var(--border);
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:600;
+    white-space:nowrap;
+    transition:.15s;
+  }
+  nav.tabs button:hover{color:var(--text);border-color:var(--accent);}
+  nav.tabs button.active{
+    background:linear-gradient(135deg,var(--accent),#0891b2);
+    color:#04141a;border-color:transparent;
+  }
+
+  main{max-width:1200px;margin:0 auto;padding:24px 20px 80px;}
+  .view{display:none;}
+  .view.active{display:block;}
+
+  h2.view-title{margin:0 0 4px;font-size:1.5rem;}
+  p.view-sub{color:var(--text-dim);margin:0 0 22px;font-size:.95rem;}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px;
+  }
+
+  /* Dashboard */
+  .lab-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:16px;
+  }
+  .lab-card{
+    background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px;display:flex;flex-direction:column;gap:10px;
+    transition:.15s;
+  }
+  .lab-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .lab-icon{font-size:1.8rem;}
+  .lab-card h3{margin:0;font-size:1.05rem;}
+  .lab-card p{margin:0;color:var(--text-dim);font-size:.85rem;flex:1;}
+  .badge{
+    align-self:flex-start;font-size:.7rem;font-weight:700;
+    padding:3px 9px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.03em;
+  }
+  .badge.not-started{background:#2a3855;color:var(--text-dim);}
+  .badge.in-progress{background:#3a2f0e;color:var(--warn);}
+  .badge.mastered{background:#0f3a2c;color:var(--accent-2);}
+  .lab-card button.start-btn{
+    margin-top:6px;background:var(--accent);color:#04141a;border:none;
+    padding:10px;border-radius:8px;font-weight:700;font-size:.85rem;
+  }
+  .footer-note{margin-top:30px;color:var(--text-dim);font-size:.8rem;text-align:center;}
+  .reset-all{
+    background:none;border:1px solid var(--border);color:var(--text-dim);
+    padding:6px 12px;border-radius:8px;font-size:.75rem;margin-top:10px;
+  }
+
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+  .btn{
+    background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+    padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;
+  }
+  .btn:hover{border-color:var(--accent);}
+  .btn.primary{background:var(--accent);color:#04141a;border-color:transparent;}
+  .btn.primary:hover{filter:brightness(1.08);}
+  .btn.active-mode{background:var(--accent-3);color:#150c2b;border-color:transparent;}
+  .btn.danger{color:var(--danger);}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  .scenario-box{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:8px;
+    padding:12px 14px;margin-bottom:14px;font-size:.9rem;color:var(--text-dim);
+  }
+  .scenario-box strong{color:var(--text);}
+
+  /* Topology builder */
+  .topo-layout{display:grid;grid-template-columns:180px 1fr;gap:16px;}
+  .palette{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:8px;
+    padding:12px;display:flex;flex-direction:column;gap:8px;height:fit-content;
+  }
+  .palette h4{margin:0 0 4px;font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;}
+  .palette-item{
+    display:flex;align-items:center;gap:8px;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;
+    padding:8px 10px;cursor:grab;font-size:.85rem;user-select:none;
+  }
+  .palette-item:active{cursor:grabbing;}
+  .canvas-wrap{
+    position:relative;background:
+      linear-gradient(var(--panel-2) 1px,transparent 1px),
+      linear-gradient(90deg,var(--panel-2) 1px,transparent 1px);
+    background-size:24px 24px;
+    background-color:#0e1728;
+    border:1px solid var(--border);border-radius:8px;
+    height:460px;overflow:hidden;
+  }
+  #topoSvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+  #topoSvg line.hit{pointer-events:stroke;cursor:pointer;}
+  .device{
+    position:absolute;transform:translate(-50%,-50%);
+    width:84px;min-height:58px;border-radius:8px;
+    background:var(--panel);border:2px solid var(--border);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;padding:6px;text-align:center;font-size:.72rem;font-weight:600;
+    user-select:none;touch-action:none;
+  }
+  .device .dev-icon{font-size:1.3rem;}
+  .device.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,.25);}
+  .device.mode-connect{cursor:crosshair;}
+  .device.mode-move{cursor:grab;}
+  .device.mode-delete{cursor:not-allowed;}
+  .canvas-hint{
+    position:absolute;bottom:8px;left:8px;font-size:.7rem;color:var(--text-dim);
+    background:rgba(18,27,46,.8);padding:4px 8px;border-radius:6px;
+  }
+  .result-box{margin-top:14px;padding:14px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2);}
+  .result-box.pass{border-color:var(--accent-2);}
+  .result-box.fail{border-color:var(--warn);}
+  .result-box h4{margin:0 0 8px;}
+  .result-box ul{margin:6px 0 0;padding-left:20px;font-size:.85rem;color:var(--text-dim);}
+  .score-big{font-size:1.6rem;font-weight:800;}
+
+  /* Subnetting */
+  .subnet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px;}
+  .field{display:flex;flex-direction:column;gap:4px;}
+  .field label{font-size:.78rem;color:var(--text-dim);}
+  .field input{
+    background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+    padding:9px 10px;border-radius:8px;font-family:var(--mono);font-size:.9rem;
+  }
+  .field input.correct{border-color:var(--accent-2);background:#0f2a22;}
+  .field input.incorrect{border-color:var(--danger);background:#2a1414;}
+  .field .answer-hint{font-size:.72rem;color:var(--accent-2);min-height:14px;}
+  .problem-display{
+    font-family:var(--mono);font-size:1.15rem;background:var(--panel-2);
+    border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:6px;
+  }
+  .diff-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+
+  /* Matching labs (ports/cables) */
+  .match-columns{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:14px;}
+  .match-col h4{font-size:.75rem;text-transform:uppercase;color:var(--text-dim);margin:0 0 10px;letter-spacing:.05em;}
+  .match-item{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:8px;
+    padding:10px 12px;margin-bottom:8px;font-size:.85rem;cursor:pointer;transition:.12s;
+  }
+  .match-item:hover{border-color:var(--accent);}
+  .match-item.selected{border-color:var(--accent);background:#123047;}
+  .match-item.matched{border-color:var(--accent-2);background:#0f2a22;opacity:.65;cursor:default;}
+  .match-item.wrong-flash{border-color:var(--danger);background:#2a1414;}
+  .match-status{margin-top:14px;font-size:.9rem;color:var(--text-dim);}
+
+  /* CLI */
+  .cli-layout{display:grid;grid-template-columns:1fr 260px;gap:16px;}
+  .terminal{
+    background:#050a12;border:1px solid var(--border);border-radius:8px;
+    height:440px;display:flex;flex-direction:column;overflow:hidden;
+  }
+  .term-output{
+    flex:1;overflow-y:auto;padding:12px 14px;font-family:var(--mono);font-size:.83rem;
+    color:#c7f7d4;white-space:pre-wrap;line-height:1.5;
+  }
+  .term-output .cmd-line{color:var(--accent);}
+  .term-output .err{color:var(--danger);}
+  .term-input-row{
+    display:flex;align-items:center;gap:6px;border-top:1px solid var(--border);
+    padding:8px 12px;background:#0a1220;
+  }
+  .term-prompt{color:var(--accent-2);font-family:var(--mono);font-size:.83rem;white-space:nowrap;}
+  .term-input-row input{
+    flex:1;background:transparent;border:none;outline:none;color:#e6edf7;
+    font-family:var(--mono);font-size:.83rem;
+  }
+  .objectives{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:14px;
+  }
+  .objectives h4{margin:0 0 10px;font-size:.85rem;}
+  .obj-item{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;color:var(--text-dim);margin-bottom:10px;}
+  .obj-check{
+    flex:0 0 18px;height:18px;border-radius:5px;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:1px;
+  }
+  .obj-item.done .obj-check{background:var(--accent-2);border-color:var(--accent-2);color:#04140c;}
+  .obj-item.done span.obj-text{color:var(--text);text-decoration:line-through;text-decoration-color:var(--text-dim);}
+
+  @media(max-width:800px){
+    .topo-layout{grid-template-columns:1fr;}
+    .palette{flex-direction:row;flex-wrap:wrap;}
+    .match-columns{grid-template-columns:1fr;}
+    .cli-layout{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand-row">
+    <div class="brand">
+      <div class="brand-mark">LP</div>
+      <div class="brand-text">
+        <h1>Launchpad IT Solutions</h1>
+        <span>Networking PBQ Practice Labs &mdash; Network+ Exam Prep</span>
+      </div>
+    </div>
+    <div class="progress-pill" id="overallProgressPill">0 / 5 labs mastered</div>
+  </div>
+  <nav class="tabs" id="tabNav">
+    <button data-view="dashboard" class="active">Dashboard</button>
+    <button data-view="topology">Topology Builder</button>
+    <button data-view="subnetting">Subnetting</button>
+    <button data-view="ports">Ports &amp; Protocols</button>
+    <button data-view="cables">Cables &amp; Connectors</button>
+    <button data-view="cli">Command Line</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- DASHBOARD -->
+  <section class="view active" id="view-dashboard">
+    <h2 class="view-title">Practice Labs</h2>
+    <p class="view-sub">Free, self-graded performance-based practice for students who can't afford paid lab platforms. Pick a lab below &mdash; your progress is saved automatically in this browser.</p>
+    <div class="lab-grid" id="labGrid"></div>
+    <div style="text-align:center;">
+      <button class="reset-all" id="resetAllBtn">Reset all progress</button>
+    </div>
+    <p class="footer-note">These labs are self-graded practice tools built by Launchpad IT Solutions. They are not affiliated with or endorsed by CompTIA and are not a substitute for the official exam.</p>
+  </section>
+
+  <!-- TOPOLOGY BUILDER -->
+  <section class="view" id="view-topology">
+    <h2 class="view-title">Network Topology Builder</h2>
+    <p class="view-sub">Drag devices onto the canvas and connect them to satisfy the scenario. Grading checks device placement and required connections.</p>
+
+    <div class="toolbar">
+      <select class="btn" id="scenarioSelect"></select>
+      <button class="btn" id="modeMove">Move</button>
+      <button class="btn" id="modeConnect">Connect</button>
+      <button class="btn" id="modeDelete">Delete</button>
+      <button class="btn" id="clearCanvas">Clear Canvas</button>
+      <button class="btn primary" id="gradeTopology">Check My Design</button>
+    </div>
+
+    <div class="scenario-box" id="scenarioBrief"></div>
+
+    <div class="topo-layout">
+      <div class="palette" id="palette">
+        <h4>Devices</h4>
+      </div>
+      <div class="canvas-wrap" id="canvasWrap">
+        <svg id="topoSvg"></svg>
+        <div id="deviceLayer" style="position:absolute;inset:0;"></div>
+        <div class="canvas-hint">Move: drag devices &middot; Connect: click two devices &middot; Delete: click a device or a line</div>
+      </div>
+    </div>
+
+    <div id="topoResult"></div>
+  </section>
+
+  <!-- SUBNETTING -->
+  <section class="view" id="view-subnetting">
+    <h2 class="view-title">Subnetting Practice</h2>
+    <p class="view-sub">Solve the subnet math, then check your work. A new problem is generated each round.</p>
+
+    <div class="diff-row">
+      <button class="btn active-mode" data-sdiff="easy">Easy (/24&ndash;/30)</button>
+      <button class="btn" data-sdiff="medium">Medium (/16&ndash;/23)</button>
+      <button class="btn" data-sdiff="hard">Hard (host requirement)</button>
+    </div>
+
+    <div class="problem-display" id="subnetProblem"></div>
+
+    <div class="subnet-grid" id="subnetFields"></div>
+
+    <div class="toolbar" style="margin-top:16px;">
+      <button class="btn primary" id="checkSubnet">Check Answers</button>
+      <button class="btn" id="newSubnet">New Problem</button>
+    </div>
+
+    <div id="subnetResult"></div>
+  </section>
+
+  <!-- PORTS -->
+  <section class="view" id="view-ports">
+    <h2 class="view-title">Port &amp; Protocol Matching</h2>
+    <p class="view-sub">Click a protocol, then click its matching port/transport. Match all pairs to finish the round.</p>
+    <div class="toolbar">
+      <button class="btn primary" id="newPortsRound">New Round</button>
+    </div>
+    <div class="match-columns" id="portsColumns"></div>
+    <div class="match-status" id="portsStatus"></div>
+  </section>
+
+  <!-- CABLES -->
+  <section class="view" id="view-cables">
+    <h2 class="view-title">Cable &amp; Connector Matching</h2>
+    <p class="view-sub">Click a cable/connector type, then click the scenario it best matches.</p>
+    <div class="toolbar">
+      <button class="btn primary" id="newCablesRound">New Round</button>
+    </div>
+    <div class="match-columns" id="cablesColumns"></div>
+    <div class="match-status" id="cablesStatus"></div>
+  </section>
+
+  <!-- CLI -->
+  <section class="view" id="view-cli">
+    <h2 class="view-title">Networking Command Line Simulator</h2>
+    <p class="view-sub">Practice real diagnostic commands against a simulated small office network. Type <code>help</code> to see what's supported.</p>
+
+    <div class="cli-layout">
+      <div class="terminal">
+        <div class="term-output" id="termOutput"></div>
+        <div class="term-input-row">
+          <span class="term-prompt">C:\Users\student&gt;</span>
+          <input id="termInput" type="text" autocomplete="off" spellcheck="false" aria-label="Command line input">
+        </div>
+      </div>
+      <div class="objectives">
+        <h4>Mission Objectives</h4>
+        <div id="objList"></div>
+        <button class="btn" id="resetCli" style="width:100%;margin-top:6px;">Reset Mission</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Progress storage ---------- */
+const PROGRESS_KEY = "lpit_pbq_progress";
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { topology:{best:0}, subnetting:{best:0,rounds:0}, ports:{best:0}, cables:{best:0}, cli:{done:0,total:5} };
+}
+let progress = loadProgress();
+function saveProgress(){
+  try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)); }catch(e){}
+  renderDashboard();
+}
+
+/* ---------- Nav / tabs ---------- */
+const tabButtons = document.querySelectorAll("#tabNav button");
+const views = document.querySelectorAll(".view");
+function showView(name){
+  views.forEach(v=>v.classList.toggle("active", v.id === "view-"+name));
+  tabButtons.forEach(b=>b.classList.toggle("active", b.dataset.view === name));
+}
+tabButtons.forEach(b=>b.addEventListener("click", ()=>showView(b.dataset.view)));
+
+/* ---------- Dashboard ---------- */
+const LAB_META = [
+  {key:"topology", view:"topology", icon:"🗺️", title:"Network Topology Builder", desc:"Drag-and-drop devices, cable them together, and get auto-graded against a scenario."},
+  {key:"subnetting", view:"subnetting", icon:"🧮", title:"Subnetting Practice", desc:"Calculate subnet mask, network/broadcast address, and usable host ranges."},
+  {key:"ports", view:"ports", icon:"🔢", title:"Port & Protocol Matching", desc:"Match common protocols to their correct port numbers and transport."},
+  {key:"cables", view:"cables", icon:"🔌", title:"Cable & Connector Matching", desc:"Match cable types and connectors to the scenario that needs them."},
+  {key:"cli", view:"cli", icon:"💻", title:"Command Line Simulator", desc:"Run real diagnostic commands against a simulated office network."}
+];
+function statusFor(key){
+  const p = progress[key];
+  if(key==="cli"){
+    if(!p || !p.done) return {label:"Not Started", cls:"not-started"};
+    if(p.done >= p.total) return {label:"Mastered", cls:"mastered"};
+    return {label:"In Progress", cls:"in-progress"};
+  }
+  const best = p ? p.best||0 : 0;
+  if(best === 0) return {label:"Not Started", cls:"not-started"};
+  if(best >= 80) return {label:"Mastered", cls:"mastered"};
+  return {label:"In Progress", cls:"in-progress"};
+}
+function renderDashboard(){
+  const grid = document.getElementById("labGrid");
+  grid.innerHTML = "";
+  let mastered = 0;
+  LAB_META.forEach(lab=>{
+    const st = statusFor(lab.key);
+    if(st.cls==="mastered") mastered++;
+    const card = document.createElement("div");
+    card.className = "lab-card";
+    card.innerHTML = `
+      <div class="lab-icon">${lab.icon}</div>
+      <span class="badge ${st.cls}">${st.label}</span>
+      <h3>${lab.title}</h3>
+      <p>${lab.desc}</p>
+      <button class="start-btn">Open Lab</button>
+    `;
+    card.querySelector(".start-btn").addEventListener("click", ()=>showView(lab.view));
+    grid.appendChild(card);
+  });
+  document.getElementById("overallProgressPill").textContent = mastered + " / 5 labs mastered";
+}
+document.getElementById("resetAllBtn").addEventListener("click", ()=>{
+  if(confirm("Reset all saved progress on this device?")){
+    localStorage.removeItem(PROGRESS_KEY);
+    progress = loadProgress();
+    saveProgress();
+  }
+});
+
+/* ---------- small utils ---------- */
+function uid(p){ return p + "_" + Math.random().toString(36).slice(2,9); }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function pick(arr,n){ return shuffle(arr).slice(0,n); }
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+/* =========================================================
+   TOPOLOGY BUILDER
+   ========================================================= */
+(function(){
+  const DEVICE_TYPES = {
+    internet: {icon:"☁️", label:"Internet"},
+    router:   {icon:"🔀", label:"Router"},
+    switch:   {icon:"🔌", label:"Switch"},
+    firewall: {icon:"🧱", label:"Firewall"},
+    server:   {icon:"🖥️", label:"Server"},
+    pc:       {icon:"💻", label:"PC"},
+    ap:       {icon:"📶", label:"Wireless AP"}
+  };
+
+  function pairKey(a,b){ return [a,b].sort().join("-"); }
+
+  const SCENARIOS = [
+    {
+      id:"s1", title:"Basic Small Office LAN", difficulty:"Easy",
+      brief:"Connect the office to the Internet through a router, then connect a switch to the router so three PCs can reach the network.",
+      requiredDevices:{internet:1, router:1, switch:1, pc:3},
+      requiredConnections:[
+        {a:"internet",b:"router",desc:"Internet to Router"},
+        {a:"router",b:"switch",desc:"Router to Switch"},
+        {a:"switch",b:"pc",desc:"Switch to PC"},
+        {a:"switch",b:"pc",desc:"Switch to PC"},
+        {a:"switch",b:"pc",desc:"Switch to PC"}
+      ]
+    },
+    {
+      id:"s2", title:"Secured Office with Server", difficulty:"Medium",
+      brief:"Place a firewall between the Internet and the router to protect the network. The router connects to a switch, which connects two PCs and a server.",
+      requiredDevices:{internet:1, firewall:1, router:1, switch:1, pc:2, server:1},
+      requiredConnections:[
+        {a:"internet",b:"firewall",desc:"Internet to Firewall"},
+        {a:"firewall",b:"router",desc:"Firewall to Router"},
+        {a:"router",b:"switch",desc:"Router to Switch"},
+        {a:"switch",b:"pc",desc:"Switch to PC"},
+        {a:"switch",b:"pc",desc:"Switch to PC"},
+        {a:"switch",b:"server",desc:"Switch to Server"}
+      ]
+    },
+    {
+      id:"s3", title:"Branch Office with Wi-Fi", difficulty:"Hard",
+      brief:"Build a network where the Internet connects to a firewall, the firewall connects to a router, the router connects to a switch, the switch connects to a wireless access point and a server, and the AP serves two wireless PCs.",
+      requiredDevices:{internet:1, firewall:1, router:1, switch:1, ap:1, server:1, pc:2},
+      requiredConnections:[
+        {a:"internet",b:"firewall",desc:"Internet to Firewall"},
+        {a:"firewall",b:"router",desc:"Firewall to Router"},
+        {a:"router",b:"switch",desc:"Router to Switch"},
+        {a:"switch",b:"ap",desc:"Switch to Wireless AP"},
+        {a:"switch",b:"server",desc:"Switch to Server"},
+        {a:"ap",b:"pc",desc:"AP to PC"},
+        {a:"ap",b:"pc",desc:"AP to PC"}
+      ]
+    }
+  ];
+
+  let placed = [];      // {id,type,x,y}
+  let connections = [];  // {id,a,b}
+  let mode = "move";
+  let connectFirst = null;
+  let scenario = SCENARIOS[0];
+
+  const palette = document.getElementById("palette");
+  const deviceLayer = document.getElementById("deviceLayer");
+  const svg = document.getElementById("topoSvg");
+  const canvasWrap = document.getElementById("canvasWrap");
+  const scenarioSelect = document.getElementById("scenarioSelect");
+  const scenarioBrief = document.getElementById("scenarioBrief");
+  const resultBox = document.getElementById("topoResult");
+
+  Object.keys(DEVICE_TYPES).forEach(type=>{
+    const d = DEVICE_TYPES[type];
+    const item = document.createElement("div");
+    item.className = "palette-item";
+    item.draggable = true;
+    item.innerHTML = `<span>${d.icon}</span><span>${d.label}</span>`;
+    item.addEventListener("dragstart", e=>{
+      e.dataTransfer.setData("text/plain", type);
+    });
+    palette.appendChild(item);
+  });
+
+  SCENARIOS.forEach(s=>{
+    const opt = document.createElement("option");
+    opt.value = s.id;
+    opt.textContent = s.difficulty + " — " + s.title;
+    scenarioSelect.appendChild(opt);
+  });
+  scenarioSelect.addEventListener("change", ()=>{
+    scenario = SCENARIOS.find(s=>s.id===scenarioSelect.value);
+    clearAll();
+    renderScenarioBrief();
+  });
+
+  function renderScenarioBrief(){
+    scenarioBrief.innerHTML = `<strong>${scenario.title} (${scenario.difficulty}):</strong> ${scenario.brief}`;
+  }
+
+  canvasWrap.addEventListener("dragover", e=> e.preventDefault());
+  canvasWrap.addEventListener("drop", e=>{
+    e.preventDefault();
+    const type = e.dataTransfer.getData("text/plain");
+    if(!DEVICE_TYPES[type]) return;
+    const rect = canvasWrap.getBoundingClientRect();
+    const x = Math.max(45, Math.min(rect.width-45, e.clientX - rect.left));
+    const y = Math.max(35, Math.min(rect.height-35, e.clientY - rect.top));
+    placed.push({id:uid("dev"), type, x, y});
+    render();
+  });
+
+  function setMode(m){
+    mode = m;
+    connectFirst = null;
+    ["modeMove","modeConnect","modeDelete"].forEach(id=>{
+      document.getElementById(id).classList.toggle("active-mode", id === "mode"+m.charAt(0).toUpperCase()+m.slice(1));
+    });
+    render();
+  }
+  document.getElementById("modeMove").addEventListener("click", ()=>setMode("move"));
+  document.getElementById("modeConnect").addEventListener("click", ()=>setMode("connect"));
+  document.getElementById("modeDelete").addEventListener("click", ()=>setMode("delete"));
+  document.getElementById("clearCanvas").addEventListener("click", clearAll);
+
+  function clearAll(){
+    placed = []; connections = []; connectFirst = null;
+    resultBox.innerHTML = "";
+    render();
+  }
+
+  function removeDevice(id){
+    placed = placed.filter(d=>d.id!==id);
+    connections = connections.filter(c=>c.a!==id && c.b!==id);
+  }
+
+  function render(){
+    deviceLayer.innerHTML = "";
+    placed.forEach(dev=>{
+      const meta = DEVICE_TYPES[dev.type];
+      const el = document.createElement("div");
+      el.className = "device mode-"+mode + (connectFirst===dev.id ? " selected" : "");
+      el.style.left = dev.x+"px";
+      el.style.top = dev.y+"px";
+      el.style.pointerEvents = "auto";
+      el.innerHTML = `<span class="dev-icon">${meta.icon}</span><span>${meta.label}</span>`;
+
+      if(mode === "move"){
+        let dragging=false, offX=0, offY=0;
+        el.addEventListener("pointerdown", e=>{
+          dragging = true;
+          el.setPointerCapture(e.pointerId);
+          const rect = canvasWrap.getBoundingClientRect();
+          offX = e.clientX - rect.left - dev.x;
+          offY = e.clientY - rect.top - dev.y;
+        });
+        el.addEventListener("pointermove", e=>{
+          if(!dragging) return;
+          const rect = canvasWrap.getBoundingClientRect();
+          dev.x = Math.max(45, Math.min(rect.width-45, e.clientX - rect.left - offX));
+          dev.y = Math.max(35, Math.min(rect.height-35, e.clientY - rect.top - offY));
+          el.style.left = dev.x+"px";
+          el.style.top = dev.y+"px";
+          drawLines();
+        });
+        el.addEventListener("pointerup", ()=>{ dragging=false; });
+      } else if(mode === "connect"){
+        el.addEventListener("click", ()=>{
+          if(!connectFirst){
+            connectFirst = dev.id;
+          } else if(connectFirst === dev.id){
+            connectFirst = null;
+          } else {
+            const exists = connections.some(c=>
+              (c.a===connectFirst && c.b===dev.id) || (c.a===dev.id && c.b===connectFirst));
+            if(!exists) connections.push({id:uid("conn"), a:connectFirst, b:dev.id});
+            connectFirst = null;
+          }
+          render();
+        });
+      } else if(mode === "delete"){
+        el.addEventListener("click", ()=>{
+          removeDevice(dev.id);
+          render();
+        });
+      }
+      deviceLayer.appendChild(el);
+    });
+    drawLines();
+  }
+
+  function drawLines(){
+    svg.innerHTML = "";
+    connections.forEach(c=>{
+      const a = placed.find(d=>d.id===c.a);
+      const b = placed.find(d=>d.id===c.b);
+      if(!a || !b) return;
+      const hit = document.createElementNS("http://www.w3.org/2000/svg","line");
+      hit.setAttribute("x1",a.x); hit.setAttribute("y1",a.y);
+      hit.setAttribute("x2",b.x); hit.setAttribute("y2",b.y);
+      hit.setAttribute("class","hit");
+      hit.setAttribute("stroke","transparent");
+      hit.setAttribute("stroke-width","14");
+      hit.style.pointerEvents = mode === "delete" ? "stroke" : "none";
+      hit.addEventListener("click", ()=>{
+        if(mode !== "delete") return;
+        connections = connections.filter(x=>x.id!==c.id);
+        render();
+      });
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1",a.x); line.setAttribute("y1",a.y);
+      line.setAttribute("x2",b.x); line.setAttribute("y2",b.y);
+      line.setAttribute("stroke","#22d3ee");
+      line.setAttribute("stroke-width","2.5");
+      svg.appendChild(hit);
+      svg.appendChild(line);
+    });
+  }
+
+  document.getElementById("gradeTopology").addEventListener("click", ()=>{
+    // device check
+    const placedCounts = {};
+    placed.forEach(d=> placedCounts[d.type] = (placedCounts[d.type]||0)+1);
+    const missingDevices = [];
+    let devHave=0, devNeed=0;
+    Object.keys(scenario.requiredDevices).forEach(type=>{
+      const need = scenario.requiredDevices[type];
+      const have = Math.min(placedCounts[type]||0, need);
+      devNeed += need; devHave += have;
+      if(have < need) missingDevices.push(`${need - have} more ${DEVICE_TYPES[type].label}`);
+    });
+    const deviceScore = devNeed ? (devHave/devNeed)*100 : 100;
+
+    // connection check by type-pair multiset
+    const actualPairs = connections.map(c=>{
+      const a = placed.find(d=>d.id===c.a);
+      const b = placed.find(d=>d.id===c.b);
+      return a && b ? pairKey(a.type,b.type) : null;
+    }).filter(Boolean);
+    const actualCounts = {};
+    actualPairs.forEach(p=> actualCounts[p] = (actualCounts[p]||0)+1);
+
+    const missingConns = [];
+    let connHave=0, connNeed=0;
+    const neededCounts = {};
+    scenario.requiredConnections.forEach(rc=>{
+      const key = pairKey(rc.a,rc.b);
+      neededCounts[key] = (neededCounts[key]||0)+1;
+    });
+    Object.keys(neededCounts).forEach(key=>{
+      const need = neededCounts[key];
+      const have = Math.min(actualCounts[key]||0, need);
+      connNeed += need; connHave += have;
+      if(have < need){
+        const example = scenario.requiredConnections.find(rc=>pairKey(rc.a,rc.b)===key);
+        missingConns.push(`${need-have}x ${example.desc}`);
+      }
+    });
+    const connScore = connNeed ? (connHave/connNeed)*100 : 100;
+
+    const overall = Math.round(deviceScore*0.35 + connScore*0.65);
+    const pass = overall >= 80;
+
+    resultBox.innerHTML = `
+      <div class="result-box ${pass?'pass':'fail'}">
+        <h4>${pass ? '✅ Design meets requirements' : '⚠️ Design needs work'}</h4>
+        <div class="score-big">${overall}%</div>
+        ${missingDevices.length ? `<p style="margin:8px 0 0;">Missing devices:</p><ul>${missingDevices.map(m=>`<li>${m}</li>`).join("")}</ul>` : ""}
+        ${missingConns.length ? `<p style="margin:8px 0 0;">Missing or incorrect connections:</p><ul>${missingConns.map(m=>`<li>${m}</li>`).join("")}</ul>` : ""}
+        ${(!missingDevices.length && !missingConns.length) ? "<p style='margin:8px 0 0;color:var(--text-dim);'>All required devices and connections are present. Great work!</p>" : ""}
+      </div>`;
+
+    if(overall > (progress.topology.best||0)){
+      progress.topology.best = overall;
+      saveProgress();
+    }
+  });
+
+  scenario = SCENARIOS[0];
+  renderScenarioBrief();
+  setMode("move");
+})();
+
+/* =========================================================
+   SUBNETTING
+   ========================================================= */
+(function(){
+  let difficulty = "easy";
+  let current = null;
+
+  function ipToInt(ip){
+    return ip.split(".").reduce((acc,o)=>acc*256+Number(o),0);
+  }
+  function intToIp(n){
+    return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join(".");
+  }
+  function maskFromPrefix(prefix){
+    if(prefix<=0) return 0;
+    if(prefix>=32) return 4294967295;
+    return 4294967295 - (Math.pow(2,32-prefix)-1);
+  }
+  function subnetInfo(ipInt, prefix){
+    const mask = maskFromPrefix(prefix);
+    const network = (ipInt & mask) >>> 0;
+    const wildcard = (mask ^ 4294967295) >>> 0;
+    const broadcast = (network | wildcard) >>> 0;
+    const totalHosts = Math.pow(2,32-prefix);
+    const usableHosts = Math.max(0, totalHosts-2);
+    const firstHost = usableHosts>0 ? network+1 : network;
+    const lastHost = usableHosts>0 ? broadcast-1 : broadcast;
+    return {mask,network,broadcast,firstHost,lastHost,usableHosts};
+  }
+  function randomIpOctets(){
+    return [randInt(1,223), randInt(0,255), randInt(0,255), randInt(0,255)];
+  }
+
+  function genProblem(){
+    if(difficulty === "hard"){
+      const hostsNeeded = randInt(2,500);
+      const bitsNeeded = Math.max(2, Math.ceil(Math.log2(hostsNeeded+2)));
+      const prefix = 32 - bitsNeeded;
+      const info = subnetInfo(0, prefix); // only mask/usable matter here
+      current = {
+        mode:"hard", hostsNeeded, prefix, mask: info.mask, usableHosts: info.usableHosts
+      };
+      return;
+    }
+    const prefix = difficulty==="easy" ? randInt(24,30) : randInt(16,23);
+    const octets = randomIpOctets();
+    const ipInt = ipToInt(octets.join("."));
+    const info = subnetInfo(ipInt, prefix);
+    current = { mode:"calc", ip: octets.join("."), prefix, ...info };
+  }
+
+  const problemDisplay = document.getElementById("subnetProblem");
+  const fieldsWrap = document.getElementById("subnetFields");
+  const resultBox = document.getElementById("subnetResult");
+
+  function renderProblem(){
+    resultBox.innerHTML = "";
+    if(current.mode === "hard"){
+      problemDisplay.textContent = `A network segment needs to support at least ${current.hostsNeeded} usable hosts. What is the minimum subnet size needed?`;
+      fieldsWrap.innerHTML = `
+        <div class="field"><label>CIDR Prefix (e.g. /27)</label><input id="f-prefix" placeholder="/__"><div class="answer-hint"></div></div>
+        <div class="field"><label>Subnet Mask</label><input id="f-mask" placeholder="255.255.255.0"><div class="answer-hint"></div></div>
+        <div class="field"><label>Usable Hosts Provided</label><input id="f-usable" placeholder="e.g. 62"><div class="answer-hint"></div></div>
+      `;
+    } else {
+      problemDisplay.textContent = `IP Address: ${current.ip} /${current.prefix}`;
+      fieldsWrap.innerHTML = `
+        <div class="field"><label>Subnet Mask</label><input id="f-mask" placeholder="255.255.255.0"><div class="answer-hint"></div></div>
+        <div class="field"><label>Network Address</label><input id="f-network" placeholder="0.0.0.0"><div class="answer-hint"></div></div>
+        <div class="field"><label>Broadcast Address</label><input id="f-broadcast" placeholder="0.0.0.0"><div class="answer-hint"></div></div>
+        <div class="field"><label>First Usable Host</label><input id="f-first" placeholder="0.0.0.0"><div class="answer-hint"></div></div>
+        <div class="field"><label>Last Usable Host</label><input id="f-last" placeholder="0.0.0.0"><div class="answer-hint"></div></div>
+        <div class="field"><label>Total Usable Hosts</label><input id="f-count" placeholder="0"><div class="answer-hint"></div></div>
+      `;
+    }
+  }
+
+  function markField(id, isCorrect, correctVal){
+    const input = document.getElementById(id);
+    const hint = input.parentElement.querySelector(".answer-hint");
+    input.classList.remove("correct","incorrect");
+    input.classList.add(isCorrect ? "correct" : "incorrect");
+    hint.textContent = isCorrect ? "" : "Correct: " + correctVal;
+  }
+
+  document.getElementById("checkSubnet").addEventListener("click", ()=>{
+    let correctCount=0, total=0;
+    if(current.mode === "hard"){
+      total = 3;
+      const prefixInput = document.getElementById("f-prefix").value.trim().replace("/","");
+      const maskInput = document.getElementById("f-mask").value.trim();
+      const usableInput = document.getElementById("f-usable").value.trim();
+      const okPrefix = prefixInput === String(current.prefix);
+      const okMask = maskInput === intToIp(current.mask);
+      const okUsable = usableInput === String(current.usableHosts);
+      markField("f-prefix", okPrefix, "/"+current.prefix);
+      markField("f-mask", okMask, intToIp(current.mask));
+      markField("f-usable", okUsable, String(current.usableHosts));
+      correctCount = [okPrefix,okMask,okUsable].filter(Boolean).length;
+    } else {
+      const checks = [
+        ["f-mask", intToIp(current.mask)],
+        ["f-network", intToIp(current.network)],
+        ["f-broadcast", intToIp(current.broadcast)],
+        ["f-first", intToIp(current.firstHost)],
+        ["f-last", intToIp(current.lastHost)],
+        ["f-count", String(current.usableHosts)]
+      ];
+      total = checks.length;
+      checks.forEach(([id,val])=>{
+        const input = document.getElementById(id);
+        const ok = input.value.trim() === val;
+        markField(id, ok, val);
+        if(ok) correctCount++;
+      });
+    }
+    const pct = Math.round((correctCount/total)*100);
+    resultBox.innerHTML = `<div class="result-box ${pct>=80?'pass':'fail'}">
+      <h4>${pct>=80 ? '✅ Nice work' : '⚠️ Review the highlighted fields'}</h4>
+      <div class="score-big">${correctCount}/${total} correct (${pct}%)</div>
+    </div>`;
+    progress.subnetting.rounds = (progress.subnetting.rounds||0)+1;
+    if(pct > (progress.subnetting.best||0)) progress.subnetting.best = pct;
+    saveProgress();
+  });
+
+  document.getElementById("newSubnet").addEventListener("click", ()=>{
+    genProblem();
+    renderProblem();
+  });
+
+  document.querySelectorAll("[data-sdiff]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      difficulty = btn.dataset.sdiff;
+      document.querySelectorAll("[data-sdiff]").forEach(b=>b.classList.toggle("active-mode", b===btn));
+      genProblem();
+      renderProblem();
+    });
+  });
+
+  genProblem();
+  renderProblem();
+})();
+
+/* =========================================================
+   GENERIC MATCHING LAB (used for Ports and Cables)
+   ========================================================= */
+function initMatchingLab(opts){
+  const {columnsEl, statusEl, pool, roundSize, leftLabel, rightLabel, progressKey, roundBtnId} = opts;
+  let items = [];
+  let selectedLeft = null;
+  let matchedCount = 0;
+
+  function newRound(){
+    items = pick(pool, Math.min(roundSize, pool.length)).map(it=>({...it, id:uid("mi")}));
+    matchedCount = 0;
+    selectedLeft = null;
+    render();
+    statusEl.textContent = `Matched 0 / ${items.length}`;
+  }
+
+  function render(){
+    const leftItems = items;
+    const rightItems = shuffle(items);
+    columnsEl.innerHTML = `
+      <div class="match-col"><h4>${leftLabel}</h4><div class="mc-left"></div></div>
+      <div class="match-col"><h4>${rightLabel}</h4><div class="mc-right"></div></div>
+    `;
+    const leftCol = columnsEl.querySelector(".mc-left");
+    const rightCol = columnsEl.querySelector(".mc-right");
+
+    leftItems.forEach(it=>{
+      const el = document.createElement("div");
+      el.className = "match-item" + (it.matched ? " matched" : "") + (selectedLeft===it.id ? " selected" : "");
+      el.textContent = it.left;
+      if(!it.matched){
+        el.addEventListener("click", ()=>{
+          selectedLeft = it.id;
+          render();
+        });
+      }
+      leftCol.appendChild(el);
+    });
+
+    rightItems.forEach(it=>{
+      const el = document.createElement("div");
+      el.className = "match-item" + (it.matched ? " matched" : "");
+      el.textContent = it.right;
+      if(!it.matched){
+        el.addEventListener("click", ()=>{
+          if(!selectedLeft) return;
+          const leftItem = items.find(x=>x.id===selectedLeft);
+          if(leftItem.id === it.id){
+            leftItem.matched = true;
+            matchedCount++;
+            selectedLeft = null;
+            render();
+            statusEl.textContent = `Matched ${matchedCount} / ${items.length}`;
+            if(matchedCount === items.length){
+              const pct = 100;
+              if(pct > (progress[progressKey].best||0)){ progress[progressKey].best = pct; saveProgress(); }
+              statusEl.innerHTML = `🎉 Round complete! All ${items.length} matched correctly.`;
+            }
+          } else {
+            el.classList.add("wrong-flash");
+            setTimeout(()=>{
+              selectedLeft = null;
+              render();
+            }, 450);
+          }
+        });
+      }
+      rightCol.appendChild(el);
+    });
+  }
+
+  document.getElementById(roundBtnId).addEventListener("click", newRound);
+  newRound();
+}
+
+/* Ports pool */
+const PORTS_POOL = [
+  {left:"FTP (Control)", right:"Port 21 (TCP)"},
+  {left:"FTP (Data)", right:"Port 20 (TCP)"},
+  {left:"SSH", right:"Port 22 (TCP)"},
+  {left:"Telnet", right:"Port 23 (TCP)"},
+  {left:"SMTP", right:"Port 25 (TCP)"},
+  {left:"DNS", right:"Port 53 (TCP/UDP)"},
+  {left:"DHCP", right:"Port 67/68 (UDP)"},
+  {left:"TFTP", right:"Port 69 (UDP)"},
+  {left:"HTTP", right:"Port 80 (TCP)"},
+  {left:"POP3", right:"Port 110 (TCP)"},
+  {left:"NTP", right:"Port 123 (UDP)"},
+  {left:"IMAP", right:"Port 143 (TCP)"},
+  {left:"SNMP", right:"Port 161 (UDP)"},
+  {left:"LDAP", right:"Port 389 (TCP)"},
+  {left:"HTTPS", right:"Port 443 (TCP)"},
+  {left:"SMB", right:"Port 445 (TCP)"},
+  {left:"Syslog", right:"Port 514 (UDP)"},
+  {left:"RDP", right:"Port 3389 (TCP)"},
+  {left:"SIP", right:"Port 5060 (TCP/UDP)"},
+  {left:"IMAPS", right:"Port 993 (TCP)"},
+  {left:"POP3S", right:"Port 995 (TCP)"}
+];
+
+/* Cables pool */
+const CABLES_POOL = [
+  {left:"RJ45 Connector", right:"Twisted-pair copper Ethernet (Cat5e/Cat6)"},
+  {left:"RJ11 Connector", right:"Telephone / DSL line"},
+  {left:"LC / SC Connector", right:"Fiber optic patch connection"},
+  {left:"BNC Connector", right:"Coaxial cable (legacy Ethernet / CCTV)"},
+  {left:"F-Type Connector", right:"Coaxial cable (cable/satellite TV)"},
+  {left:"Cat6 Cable", right:"Copper Ethernet, up to 10Gbps at short range"},
+  {left:"Single-mode Fiber", right:"Long-distance, high-bandwidth backbone link"},
+  {left:"Multi-mode Fiber", right:"Shorter-distance fiber used within a data center"},
+  {left:"Coaxial Cable", right:"Cable broadband / legacy 10BASE2 network"},
+  {left:"Rollover (Console) Cable", right:"Direct CLI connection to a switch/router console port"},
+  {left:"Straight-through Cable", right:"Connecting a PC to a switch/router (dissimilar devices)"},
+  {left:"Crossover Cable", right:"Connecting two similar devices directly (e.g. switch to switch)"}
+];
+
+initMatchingLab({
+  columnsEl: document.getElementById("portsColumns"),
+  statusEl: document.getElementById("portsStatus"),
+  pool: PORTS_POOL, roundSize: 8,
+  leftLabel: "Protocol", rightLabel: "Port / Transport",
+  progressKey: "ports", roundBtnId: "newPortsRound"
+});
+
+initMatchingLab({
+  columnsEl: document.getElementById("cablesColumns"),
+  statusEl: document.getElementById("cablesStatus"),
+  pool: CABLES_POOL, roundSize: 8,
+  leftLabel: "Cable / Connector", rightLabel: "Use Case",
+  progressKey: "cables", roundBtnId: "newCablesRound"
+});
+
+/* =========================================================
+   COMMAND LINE SIMULATOR
+   ========================================================= */
+(function(){
+  const output = document.getElementById("termOutput");
+  const input = document.getElementById("termInput");
+  const objList = document.getElementById("objList");
+
+  const NET = {
+    localIp: "192.168.1.50",
+    localMask: "255.255.255.0",
+    gateway: "192.168.1.1",
+    mac: "AA-BB-CC-11-22-33",
+    dns: "8.8.8.8",
+    dnsTable: { "www.launchpadit.com": "203.0.113.10", "fileserver": "192.168.1.20" },
+    offlineHosts: ["192.168.1.20","fileserver"],
+    arpTable: [
+      ["192.168.1.1","00-11-22-AA-BB-01","dynamic"],
+      ["192.168.1.20","00-11-22-AA-BB-02","dynamic"],
+      ["192.168.1.50","AA-BB-CC-11-22-33","dynamic"]
+    ]
+  };
+
+  const OBJECTIVES = [
+    {id:"ip", text:"Find your PC's IP address and default gateway", test:cmd=>/^ipconfig(\s|$)/.test(cmd)},
+    {id:"mac", text:"View your PC's physical (MAC) address", test:cmd=>/^ipconfig\s*\/all/.test(cmd)},
+    {id:"dns", text:"Resolve the IP address of www.launchpadit.com", test:cmd=>/^nslookup\s+www\.launchpadit\.com/.test(cmd)},
+    {id:"down", text:"Determine whether the file server (192.168.1.20) is reachable", test:cmd=>/^ping\s+(192\.168\.1\.20|fileserver)/.test(cmd)},
+    {id:"trace", text:"Trace the network path to www.launchpadit.com", test:cmd=>/^(tracert|traceroute)\s+www\.launchpadit\.com/.test(cmd)}
+  ];
+  let done = new Set();
+  let history = [];
+  let histIndex = -1;
+
+  function renderObjectives(){
+    objList.innerHTML = "";
+    OBJECTIVES.forEach(o=>{
+      const row = document.createElement("div");
+      row.className = "obj-item" + (done.has(o.id) ? " done" : "");
+      row.innerHTML = `<div class="obj-check">${done.has(o.id) ? "✓" : ""}</div><span class="obj-text">${o.text}</span>`;
+      objList.appendChild(row);
+    });
+    progress.cli.done = done.size;
+    progress.cli.total = OBJECTIVES.length;
+    saveProgress();
+  }
+
+  function print(text, cls){
+    const line = document.createElement("div");
+    if(cls) line.className = cls;
+    line.textContent = text;
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
+  }
+  function printBlank(){ print(""); }
+
+  function resolveHost(host){
+    if(NET.dnsTable[host]) return NET.dnsTable[host];
+    if(/^\d+\.\d+\.\d+\.\d+$/.test(host)) return host;
+    return null;
+  }
+
+  function cmdIpconfig(args){
+    const full = args.includes("/all");
+    print("Windows IP Configuration");
+    printBlank();
+    print("Ethernet adapter Ethernet:");
+    print("   Connection-specific DNS Suffix  . : launchpadit.local");
+    if(full){
+      print("   Description . . . . . . . . . . . : Intel(R) Ethernet Adapter");
+      print("   Physical Address. . . . . . . . . : " + NET.mac);
+      print("   DHCP Enabled. . . . . . . . . . . : Yes");
+    }
+    print("   IPv4 Address. . . . . . . . . . . : " + NET.localIp);
+    print("   Subnet Mask . . . . . . . . . . . : " + NET.localMask);
+    print("   Default Gateway . . . . . . . . . : " + NET.gateway);
+    if(full){
+      print("   DNS Servers . . . . . . . . . . . : " + NET.dns);
+    }
+  }
+
+  function cmdPing(host){
+    if(!host){ print("Usage: ping <hostname or IP>", "err"); return; }
+    const ip = resolveHost(host);
+    if(!ip){ print("Ping request could not find host " + host + ". Please check the name and try again.", "err"); return; }
+    const offline = NET.offlineHosts.includes(host) || NET.offlineHosts.includes(ip);
+    print("Pinging " + host + " [" + ip + "] with 32 bytes of data:");
+    for(let i=0;i<4;i++){
+      if(offline){
+        print("Request timed out.");
+      } else {
+        print("Reply from " + ip + ": bytes=32 time=" + randInt(1,40) + "ms TTL=" + randInt(54,128));
+      }
+    }
+    printBlank();
+    if(offline){
+      print("Ping statistics for " + ip + ":");
+      print("    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)");
+    } else {
+      print("Ping statistics for " + ip + ":");
+      print("    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)");
+    }
+  }
+
+  function cmdTracert(host){
+    if(!host){ print("Usage: tracert <hostname or IP>", "err"); return; }
+    const ip = resolveHost(host);
+    if(!ip){ print("Unable to resolve target system name " + host + ".", "err"); return; }
+    print("Tracing route to " + host + " [" + ip + "]");
+    print("over a maximum of 30 hops:");
+    printBlank();
+    const hops = [
+      ["1", NET.gateway],
+      ["2", "10.20." + randInt(0,255) + "." + randInt(1,254)],
+      ["3", "72.14." + randInt(0,255) + "." + randInt(1,254)],
+      ["4", ip]
+    ];
+    hops.forEach(([n,hIp])=>{
+      print(`  ${n}    ${randInt(1,25)} ms    ${randInt(1,25)} ms    ${randInt(1,25)} ms  ${hIp}`);
+    });
+    printBlank();
+    print("Trace complete.");
+  }
+
+  function cmdNslookup(host){
+    if(!host){ print("Default Server: resolver1.opendns.com"); print("Address: " + NET.dns); return; }
+    const ip = resolveHost(host);
+    print("Server:  resolver1.opendns.com");
+    print("Address:  " + NET.dns);
+    printBlank();
+    if(ip){
+      print("Non-authoritative answer:");
+      print("Name:    " + host);
+      print("Address:  " + ip);
+    } else {
+      print("*** resolver1.opendns.com can't find " + host + ": Non-existent domain", "err");
+    }
+  }
+
+  function cmdNetstat(){
+    print("Active Connections");
+    printBlank();
+    print("  Proto  Local Address          Foreign Address        State");
+    print("  TCP    " + NET.localIp + ":49512    203.0.113.10:443      ESTABLISHED");
+    print("  TCP    " + NET.localIp + ":49520    192.168.1.20:445      TIME_WAIT");
+    print("  UDP    " + NET.localIp + ":68       *:*");
+  }
+
+  function cmdArp(){
+    print("Interface: " + NET.localIp + " --- 0x1");
+    print("  Internet Address      Physical Address      Type");
+    NET.arpTable.forEach(([ip,mac,type])=>{
+      print(`  ${ip.padEnd(22)}${mac.padEnd(22)}${type}`);
+    });
+  }
+
+  function handleCommand(raw){
+    const trimmed = raw.trim();
+    if(!trimmed) return;
+    print("C:\\Users\\student>" + raw, "cmd-line");
+    const lower = trimmed.toLowerCase();
+    const parts = lower.split(/\s+/);
+    const base = parts[0];
+    const args = parts.slice(1);
+
+    switch(base){
+      case "help":
+        print("Supported commands:");
+        print("  ipconfig [/all]        netstat -an");
+        print("  ping <host>            arp -a");
+        print("  tracert <host>         nslookup <host>");
+        print("  clear / cls            help");
+        break;
+      case "ipconfig": cmdIpconfig(args); break;
+      case "ping": cmdPing(args[0]); break;
+      case "tracert":
+      case "traceroute": cmdTracert(args[0]); break;
+      case "nslookup": cmdNslookup(args[0]); break;
+      case "netstat": cmdNetstat(); break;
+      case "arp": cmdArp(); break;
+      case "cls":
+      case "clear": output.innerHTML = ""; break;
+      default:
+        print("'" + parts[0] + "' is not recognized as an internal or external command, operable program or batch file.", "err");
+    }
+    printBlank();
+
+    OBJECTIVES.forEach(o=>{
+      if(!done.has(o.id) && o.test(lower)) done.add(o.id);
+    });
+    renderObjectives();
+  }
+
+  input.addEventListener("keydown", e=>{
+    if(e.key === "Enter"){
+      const val = input.value;
+      if(val.trim()){
+        history.push(val);
+        histIndex = history.length;
+      }
+      handleCommand(val);
+      input.value = "";
+    } else if(e.key === "ArrowUp"){
+      if(histIndex > 0){ histIndex--; input.value = history[histIndex] || ""; }
+      e.preventDefault();
+    } else if(e.key === "ArrowDown"){
+      if(histIndex < history.length){ histIndex++; input.value = history[histIndex] || ""; }
+      e.preventDefault();
+    }
+  });
+
+  document.getElementById("resetCli").addEventListener("click", ()=>{
+    done = new Set();
+    output.innerHTML = "";
+    print("Microsoft Windows [Version 10.0.19045]");
+    print("(c) Launchpad IT Solutions network simulator. Type 'help' to get started.");
+    printBlank();
+    renderObjectives();
+  });
+
+  print("Microsoft Windows [Version 10.0.19045]");
+  print("(c) Launchpad IT Solutions network simulator. Type 'help' to get started.");
+  printBlank();
+  renderObjectives();
+})();
+
+renderDashboard();
+
+})();
+</script>
+</body>
+</html>
