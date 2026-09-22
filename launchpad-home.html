@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launchpad IT Solutions | Find Your Path in IT</title>
+<meta name="description" content="Launchpad IT Solutions is an IT mentorship program helping people navigate skills and jobs in the IT field, with free hands-on practice labs to get started.">
+<link rel="stylesheet" href="site-shared.css">
+<style>
+  .hero{
+    padding:70px 0 60px;text-align:center;
+  }
+  .hero .kicker{
+    display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.3);
+    padding:6px 14px;border-radius:999px;margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:2.6rem;line-height:1.15;margin:0 0 16px;
+    background:linear-gradient(135deg,var(--text) 30%,var(--accent) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    max-width:640px;margin:0 auto 30px;color:var(--text-dim);font-size:1.1rem;line-height:1.6;
+  }
+  .hero .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  section{padding:50px 0;}
+  section h2{font-size:1.6rem;margin:0 0 10px;text-align:center;}
+  section p.section-sub{color:var(--text-dim);text-align:center;max-width:600px;margin:0 auto 34px;}
+
+  .value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+  .value-card{padding:22px;}
+  .value-card .icon{font-size:1.7rem;margin-bottom:10px;}
+  .value-card h3{margin:0 0 8px;font-size:1.02rem;}
+  .value-card p{margin:0;color:var(--text-dim);font-size:.88rem;line-height:1.5;}
+
+  .labs-callout{
+    background:linear-gradient(135deg, rgba(34,211,238,.08), rgba(167,139,250,.08));
+    border:1px solid var(--border);border-radius:16px;
+    padding:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;
+  }
+  .labs-callout h2{text-align:left;margin:0 0 12px;}
+  .labs-callout p{color:var(--text-dim);margin:0 0 20px;line-height:1.6;}
+  .labs-list{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .labs-list li{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--text);}
+  .labs-list .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+  .labs-preview{
+    background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:22px;
+  }
+  .labs-preview .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .mini-badge{
+    font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:999px;
+    background:var(--panel-2);border:1px solid var(--border);color:var(--text-dim);
+  }
+  .labs-preview .score-line{display:flex;justify-content:space-between;font-size:.85rem;color:var(--text-dim);margin-bottom:6px;}
+  .labs-preview .bar{height:8px;background:var(--panel-2);border-radius:99px;overflow:hidden;margin-bottom:16px;}
+  .labs-preview .bar-fill{height:100%;width:60%;background:linear-gradient(90deg,var(--accent),var(--accent-3));}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+  .step{padding:24px;position:relative;}
+  .step .num{
+    width:30px;height:30px;border-radius:50%;background:var(--panel-2);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);margin-bottom:12px;
+  }
+  .step h3{margin:0 0 6px;font-size:.98rem;}
+  .step p{margin:0;color:var(--text-dim);font-size:.85rem;line-height:1.5;}
+
+  @media(max-width:800px){
+    .hero h1{font-size:1.9rem;}
+    .labs-callout{grid-template-columns:1fr;padding:26px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand-row">
+    <a class="brand" href="launchpad-home.html">
+      <div class="brand-mark">LP</div>
+      <div class="brand-text">
+        <h1>Launchpad IT Solutions</h1>
+        <span>IT Mentorship &amp; Hands-On Practice</span>
+      </div>
+    </a>
+  </div>
+  <nav class="tabs">
+    <a href="launchpad-home.html" class="active">Home</a>
+    <a href="launchpad-home.html#why">Why Launchpad</a>
+    <a href="launchpad-home.html#how">How It Works</a>
+    <a href="networking-pbq-labs.html">Practice Labs</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <span class="kicker">IT Mentorship Program</span>
+    <h1>Find Your Path in IT</h1>
+    <p class="lead">Launchpad IT Solutions helps people navigate the skills and jobs in the IT field &mdash; through mentorship, guidance, and free hands-on practice, no matter where you're starting from.</p>
+    <div class="cta-row">
+      <a href="networking-pbq-labs.html" class="btn primary large">Explore Free Practice Labs</a>
+      <a href="#why" class="btn large">Why Launchpad</a>
+    </div>
+  </section>
+
+  <section id="why">
+    <h2>Why Launchpad IT Solutions</h2>
+    <p class="section-sub">We're dedicated to helping people find their path in IT &mdash; with real guidance and real practice, not just theory.</p>
+    <div class="value-grid">
+      <div class="card value-card">
+        <div class="icon">🧭</div>
+        <h3>Personalized Mentorship</h3>
+        <p>One-on-one guidance to help you figure out which part of IT fits you &mdash; networking, security, support, cloud, and more.</p>
+      </div>
+      <div class="card value-card">
+        <div class="icon">🛠️</div>
+        <h3>Hands-On Practice</h3>
+        <p>Free, self-graded labs that simulate the real performance-based tasks used in IT certification exams and on the job.</p>
+      </div>
+      <div class="card value-card">
+        <div class="icon">📈</div>
+        <h3>Career Guidance</h3>
+        <p>Clear next steps &mdash; certifications, skills, and experience &mdash; so you always know what to work on next.</p>
+      </div>
+      <div class="card value-card">
+        <div class="icon">🤝</div>
+        <h3>No-Cost Access</h3>
+        <p>Quality training shouldn't be locked behind a paywall. Our core practice tools are free for anyone who wants to learn.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="labs-callout">
+      <div>
+        <h2>Free Networking PBQ Practice Labs</h2>
+        <p>Can't afford paid lab platforms? Our Networking Practice Labs give you the same style of performance-based questions used in CompTIA Network+ prep &mdash; completely free, with instant self-grading.</p>
+        <ul class="labs-list">
+          <li><span class="dot"></span> Drag-and-drop network topology builder</li>
+          <li><span class="dot"></span> Subnetting practice with instant feedback</li>
+          <li><span class="dot"></span> Port &amp; protocol matching</li>
+          <li><span class="dot"></span> Cable &amp; connector matching</li>
+          <li><span class="dot"></span> Simulated command-line troubleshooting missions</li>
+        </ul>
+        <a href="networking-pbq-labs.html" class="btn primary">Start Practicing &rarr;</a>
+      </div>
+      <div class="labs-preview">
+        <div class="badge-row">
+          <span class="mini-badge">Topology</span>
+          <span class="mini-badge">Subnetting</span>
+          <span class="mini-badge">Ports</span>
+          <span class="mini-badge">Cables</span>
+          <span class="mini-badge">CLI</span>
+        </div>
+        <div class="score-line"><span>Sample progress</span><span>3 / 5 mastered</span></div>
+        <div class="bar"><div class="bar-fill"></div></div>
+        <p style="margin:0;color:var(--text-dim);font-size:.82rem;">Your progress is saved automatically in your browser as you complete each lab.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How Mentorship Works</h2>
+    <p class="section-sub">A simple path from "where do I start?" to hands-on, job-ready skills.</p>
+    <div class="steps">
+      <div class="card step">
+        <div class="num">1</div>
+        <h3>Assess Your Goals</h3>
+        <p>We talk through your background and interests to figure out which IT path makes sense for you.</p>
+      </div>
+      <div class="card step">
+        <div class="num">2</div>
+        <h3>Build a Learning Path</h3>
+        <p>A personalized plan of skills, certifications, and milestones tailored to where you want to go.</p>
+      </div>
+      <div class="card step">
+        <div class="num">3</div>
+        <h3>Practice &amp; Get Support</h3>
+        <p>Work through hands-on labs like our Networking PBQ Practice Labs, with mentorship along the way.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Launchpad IT Solutions &mdash; helping people find their path in IT.</p>
+  <p><a href="networking-pbq-labs.html">Free Practice Labs</a></p>
+</footer>
+
+</body>
+</html>

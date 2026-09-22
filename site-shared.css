@@ -1,0 +1,112 @@
+/* Shared brand chrome for the Launchpad IT Solutions site: root tokens,
+   base reset, header/nav, and the common button/card components.
+   Included by every page in the site (launchpad-home.html,
+   networking-pbq-labs.html, and any future page) so they share one look. */
+
+:root{
+  --bg:#0b1220;
+  --panel:#121b2e;
+  --panel-2:#17233a;
+  --border:#263650;
+  --text:#e6edf7;
+  --text-dim:#8ea0bd;
+  --accent:#22d3ee;
+  --accent-2:#34d399;
+  --accent-3:#a78bfa;
+  --danger:#f87171;
+  --warn:#fbbf24;
+  --radius:10px;
+  --mono: 'Consolas','Menlo','Courier New',monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  min-height:100vh;
+}
+a{color:var(--accent);}
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+
+/* Header */
+header.site{
+  position:sticky;top:0;z-index:50;
+  background:rgba(11,18,32,0.95);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border);
+}
+.brand-row{
+  max-width:1200px;margin:0 auto;padding:14px 20px 6px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+a.brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.brand-mark{
+  width:38px;height:38px;border-radius:9px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-3));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;color:#081019;font-size:1.1rem;
+  flex-shrink:0;
+}
+.brand-text h1{font-size:1.05rem;margin:0;line-height:1.2;color:var(--text);}
+.brand-text span{font-size:.78rem;color:var(--text-dim);}
+
+nav.tabs{
+  max-width:1200px;margin:0 auto;padding:8px 20px 12px;
+  display:flex;gap:8px;overflow-x:auto;
+}
+nav.tabs button, nav.tabs a{
+  flex:0 0 auto;
+  background:var(--panel);
+  color:var(--text-dim);
+  border:1px solid var(--border);
+  padding:8px 14px;
+  border-radius:999px;
+  font-size:.85rem;
+  font-weight:600;
+  white-space:nowrap;
+  text-decoration:none;
+  transition:.15s;
+  display:inline-block;
+}
+nav.tabs button:hover, nav.tabs a:hover{color:var(--text);border-color:var(--accent);}
+nav.tabs button.active, nav.tabs a.active{
+  background:linear-gradient(135deg,var(--accent),#0891b2);
+  color:#04141a;border-color:transparent;
+}
+
+main{max-width:1200px;margin:0 auto;padding:24px 20px 80px;}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
+}
+
+.btn{
+  background:var(--panel-2);color:var(--text);border:1px solid var(--border);
+  padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;
+  text-decoration:none;display:inline-block;
+}
+.btn:hover{border-color:var(--accent);}
+.btn.primary{background:var(--accent);color:#04141a;border-color:transparent;}
+.btn.primary:hover{filter:brightness(1.08);}
+.btn.active-mode{background:var(--accent-3);color:#150c2b;border-color:transparent;}
+.btn.danger{color:var(--danger);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.btn.large{padding:14px 26px;font-size:1rem;border-radius:10px;}
+
+.footer-note{margin-top:30px;color:var(--text-dim);font-size:.8rem;text-align:center;}
+
+footer.site-footer{
+  border-top:1px solid var(--border);
+  margin-top:60px;padding:28px 20px;text-align:center;
+  color:var(--text-dim);font-size:.85rem;
+}
+footer.site-footer a{color:var(--text-dim);text-decoration:underline;}
+footer.site-footer a:hover{color:var(--accent);}
